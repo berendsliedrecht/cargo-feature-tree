@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 toml = "0.5.9"
+colored = "2.0.0"
 
 [dependencies.serde]
 version = "1.0.140"

@@ -1,3 +1,4 @@
+use colored::Colorize;
 use error::Result;
 use parse::Parse;
 use std::env;
@@ -19,6 +20,6 @@ fn main() {
     match run() {
         Ok(()) => (),
         // Red and bold
-        Err(e) => eprintln!("\x1b[31m\x1b[1m[Error]\x1b[0m: {}", e),
+        Err(e) => eprintln!("{}: {}", "[ERROR]".red().bold(), e),
     }
 }

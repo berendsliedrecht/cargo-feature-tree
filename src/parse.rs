@@ -10,7 +10,7 @@ impl Parse {
     }
 
     pub fn from_file(p: impl AsRef<Path>) -> Result<CargoToml> {
-        let x = std::fs::read(p).map_err(|_| Error::FileNotFound)?;
-        Parse::from_bytes(&x)
+        let bytes = std::fs::read(p).map_err(|_| Error::FileNotFound)?;
+        Parse::from_bytes(&bytes)
     }
 }

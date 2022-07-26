@@ -24,7 +24,7 @@ impl fmt::Display for CargoToml {
         let _ = writeln!(f, "===== Package =====");
         let _ = writeln!(f, "{}", self.package);
         let _ = writeln!(f, "===== Features =====");
-        let _ = writeln!(f, "Features:\n{}", features);
+        let _ = writeln!(f, "{}", features);
 
         Ok(())
     }
