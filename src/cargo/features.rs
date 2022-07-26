@@ -34,23 +34,25 @@ impl CargoFeatures {
     }
 }
 
-// TODO: refactor
+// TODO: refactor and should be recursive
 impl fmt::Display for CargoFeatures {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let indent = "  ";
+        let list_marker = "-";
         let arr = &self.0;
-        let names = self.get_features();
-        arr.iter().for_each(|(name, features)| {
-            if name == "default" {
-                let _ = writeln!(f, "{}", name.cyan());
+        let features = self.get_features();
+        arr.iter().for_each(|(feature, other_features)| {
+            if feature == "default" {
+                let _ = writeln!(f, "{}", feature.cyan());
             } else {
-                let _ = writeln!(f, "{}", name);
+                let _ = writeln!(f, "{}", feature);
             }
-            features.iter().for_each(|feature| {
-                let _ = writeln!(f, "  - {}", feature);
-                if names.contains(feature) {
-                    if let Some(sub_features) = self.get_other_features_by_feature(feature) {
+            other_features.iter().for_each(|other_feature| {
+                let _ = writeln!(f, "{}{} {}", indent, list_marker, other_feature);
+                if features.contains(other_feature) {
+                    if let Some(sub_features) = self.get_other_features_by_feature(other_feature) {
                         sub_features.iter().for_each(|s| {
-                            let _ = writeln!(f, "    - {}", s);
+                            let _ = writeln!(f, "{}{}{} {}", indent, indent, list_marker, s);
                         });
                     }
                 }
