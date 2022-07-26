@@ -5,6 +5,7 @@ use std::env;
 
 mod cargo;
 mod error;
+mod formatter;
 mod parse;
 
 fn run() -> Result<impl std::fmt::Display> {
