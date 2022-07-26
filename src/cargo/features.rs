@@ -46,7 +46,7 @@ impl<'a> CargoFeatures {
     ) {
         if let Some((_, other_features)) = self.get_other_features_by_feature(name.as_ref()) {
             other_features.iter().for_each(|feature| {
-                v.insert(CargoFeature(feature.to_owned(), depth + 1));
+                v.insert(CargoFeature(feature.to_owned(), depth));
                 self.get_other_features_with_depth(feature, v, depth + 1);
             });
         }
@@ -59,7 +59,7 @@ impl fmt::Display for CargoFeatures {
 
         self.0.iter().for_each(|(name, _)| {
             v.insert(CargoFeature(name.to_string(), 0));
-            self.get_other_features_with_depth(name, &mut v, 0);
+            self.get_other_features_with_depth(name, &mut v, 1);
         });
 
         Formatter::new(v.iter().map(|feat| (feat.0.as_str(), feat.1)).collect()).write();
