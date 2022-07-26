@@ -17,9 +17,7 @@ fn run() -> Result<()> {
 }
 
 fn main() {
-    match run() {
-        Ok(()) => (),
-        // Red and bold
-        Err(e) => eprintln!("{}: {}", "[ERROR]".red().bold(), e),
+    if let Err(e) = run() {
+        eprintln!("{}: {}", "[ERROR]".red().bold(), e);
     }
 }
