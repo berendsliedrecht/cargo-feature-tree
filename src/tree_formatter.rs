@@ -33,10 +33,12 @@ impl<'a> TreeFormatter<'a> {
         }
     }
 
+    // TODO: refactor obtaining the whole structure into another function
     // TODO: this needs a refactor...
     // Biggest "issue" is that when the last leaf of a feature happened we do not cut its line off
     // This means that a line will run until it hits a leaf where the depth is smaller than its own
     // depth
+    // termtree has an implementation for this but they have an eniterly different sturcture
     pub fn write(&self) {
         let mut node_iter = self.nodes.iter().enumerate().peekable();
         while let Some((i, (name, current_depth))) = node_iter.next() {
@@ -66,6 +68,8 @@ impl<'a> TreeFormatter<'a> {
                     }
                 }
             };
+
+            // -- print part --
 
             let mut line = String::from(first_char);
 

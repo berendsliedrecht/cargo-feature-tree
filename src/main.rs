@@ -4,8 +4,8 @@ use std::{env, process::exit};
 
 mod error;
 mod features;
-mod formatter;
 mod parse;
+mod tree_formatter;
 
 fn main() {
     let mut args = env::args().skip(1);
