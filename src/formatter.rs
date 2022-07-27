@@ -22,7 +22,7 @@ impl<'a> Default for Markers<'a> {
 
 pub struct Formatter<'a> {
     markers: Markers<'a>,
-    nodes: IndexSet<(&'a str, usize)>,
+    nodes: IndexSet<(String, usize)>,
 }
 
 impl Default for Formatter<'_> {
@@ -35,7 +35,7 @@ impl Default for Formatter<'_> {
 }
 
 impl<'a> Formatter<'a> {
-    pub fn new(nodes: IndexSet<(&'a str, usize)>) -> Self {
+    pub fn new(nodes: IndexSet<(String, usize)>) -> Self {
         Self {
             nodes,
             markers: Markers::default(),
