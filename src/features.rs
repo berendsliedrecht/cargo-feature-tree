@@ -11,7 +11,7 @@ pub struct CargoFeatures(pub BTreeMap<String, Vec<String>>);
 pub struct CargoFeature(String, usize);
 
 impl<'a> CargoFeatures {
-    pub fn get_other_features_by_feature(
+    pub(crate) fn get_other_features_by_feature(
         &self,
         name: impl AsRef<str>,
     ) -> Option<(String, Vec<String>)> {
@@ -20,7 +20,7 @@ impl<'a> CargoFeatures {
             .map(|(a, b)| (a.to_owned(), b.to_owned()))
     }
 
-    pub fn get_other_features_with_depth(
+    pub(crate) fn get_other_features_with_depth(
         &self,
         name: impl AsRef<str> + 'a,
         v: &mut IndexSet<CargoFeature>,
