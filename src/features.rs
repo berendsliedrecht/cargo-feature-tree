@@ -3,32 +3,14 @@ use core::fmt;
 use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
-use toml::{value::Map, Value};
 
 #[derive(Serialize, Deserialize, Default, Debug)]
-pub struct CargoFeatures(BTreeMap<String, Vec<String>>);
+pub struct CargoFeatures(pub BTreeMap<String, Vec<String>>);
 
 #[derive(Hash, Eq, PartialEq, Debug)]
 pub struct CargoFeature(String, usize);
 
 impl<'a> CargoFeatures {
-    pub fn from_map(map: &Map<String, Value>) -> Self {
-        let mapped_map = map
-            .iter()
-            .map(|(name, value)| {
-                let arr = value
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .map(|v| v.as_str().unwrap().to_owned())
-                    .collect();
-                (name.to_owned(), arr)
-            })
-            .collect();
-
-        Self(mapped_map)
-    }
-
     pub fn get_other_features_by_feature(
         &self,
         name: impl AsRef<str>,

@@ -15,7 +15,7 @@ impl<'a> Default for Markers<'a> {
             middle: "┣",
             end: "┗",
             edge: "┃",
-            whitespace: "  ",
+            whitespace: "   ",
         }
     }
 }
@@ -96,6 +96,7 @@ impl<'a> Formatter<'a> {
             }
 
             line.push_str(middle_char);
+            line.push_str(self.markers.indent);
             line.push(' ');
             line.push_str(name);
 
