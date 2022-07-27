@@ -23,7 +23,7 @@ fn main() {
     let cargo_toml = Parse::from_dir(path);
 
     match cargo_toml {
-        Ok(t) => print!("{}", CargoFeatures(t.features)),
+        Ok(t) => CargoFeatures(t.features).display(),
         Err(e) => eprintln!("[ERROR]: {}", e),
     }
 }

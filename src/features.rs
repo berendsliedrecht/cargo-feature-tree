@@ -1,4 +1,4 @@
-use crate::formatter::Formatter;
+use crate::formatter::TreeFormatter;
 use core::fmt;
 use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
@@ -30,10 +30,8 @@ impl<'a> CargoFeatures {
             });
         }
     }
-}
 
-impl fmt::Display for CargoFeatures {
-    fn fmt(&self, _: &mut fmt::Formatter<'_>) -> fmt::Result {
+    pub fn display(&self) {
         let mut v: IndexSet<(String, usize)> = IndexSet::new();
 
         self.0.iter().for_each(|(name, _)| {
@@ -41,8 +39,13 @@ impl fmt::Display for CargoFeatures {
             self.get_other_features_with_depth(name, &mut v, 1);
         });
 
-        Formatter::new(v).write();
+        TreeFormatter::new(v).write();
+    }
+}
 
+impl fmt::Display for CargoFeatures {
+    fn fmt(&self, _: &mut fmt::Formatter<'_>) -> fmt::Result {
+        self.display();
         Ok(())
     }
 }

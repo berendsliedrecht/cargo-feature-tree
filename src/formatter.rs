@@ -20,21 +20,12 @@ impl<'a> Default for Markers<'a> {
     }
 }
 
-pub struct Formatter<'a> {
+pub struct TreeFormatter<'a> {
     markers: Markers<'a>,
     nodes: IndexSet<(String, usize)>,
 }
 
-impl Default for Formatter<'_> {
-    fn default() -> Self {
-        Self {
-            nodes: IndexSet::new(),
-            ..Default::default()
-        }
-    }
-}
-
-impl<'a> Formatter<'a> {
+impl<'a> TreeFormatter<'a> {
     pub fn new(nodes: IndexSet<(String, usize)>) -> Self {
         Self {
             nodes,
