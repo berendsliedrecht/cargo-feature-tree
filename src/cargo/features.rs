@@ -9,7 +9,7 @@ use toml::{value::Map, Value};
 pub struct CargoFeatures(BTreeMap<String, Vec<String>>);
 
 #[derive(Hash, Eq, PartialEq, Debug)]
-pub struct CargoFeature(String, u8);
+pub struct CargoFeature(String, usize);
 
 impl<'a> CargoFeatures {
     pub fn from_map(map: &Map<String, Value>) -> Self {
@@ -42,7 +42,7 @@ impl<'a> CargoFeatures {
         &self,
         name: impl AsRef<str> + 'a,
         v: &mut IndexSet<CargoFeature>,
-        depth: u8,
+        depth: usize,
     ) {
         if let Some((_, other_features)) = self.get_other_features_by_feature(name.as_ref()) {
             other_features.iter().for_each(|feature| {
@@ -62,7 +62,11 @@ impl fmt::Display for CargoFeatures {
             self.get_other_features_with_depth(name, &mut v, 1);
         });
 
-        Formatter::new(v.iter().map(|feat| (feat.0.as_str(), feat.1)).collect()).write();
+        Formatter::new(
+            v.iter().map(|feat| (feat.0.as_str(), feat.1)).collect(),
+            "Features",
+        )
+        .write();
 
         Ok(())
     }
