@@ -44,11 +44,7 @@ impl fmt::Display for CargoFeatures {
             self.get_other_features_with_depth(name, &mut v, 1);
         });
 
-        Formatter::new(
-            v.iter().map(|feat| (feat.0.as_str(), feat.1)).collect(),
-            "Features",
-        )
-        .write();
+        Formatter::new(v.iter().map(|feat| (feat.0.as_str(), feat.1)).collect()).write();
 
         Ok(())
     }

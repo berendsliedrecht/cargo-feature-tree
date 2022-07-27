@@ -21,7 +21,6 @@ impl<'a> Default for Markers<'a> {
 }
 
 pub struct Formatter<'a> {
-    title: &'a str,
     markers: Markers<'a>,
     nodes: IndexSet<(&'a str, usize)>,
 }
@@ -36,9 +35,8 @@ impl Default for Formatter<'_> {
 }
 
 impl<'a> Formatter<'a> {
-    pub fn new(nodes: IndexSet<(&'a str, usize)>, title: &'a str) -> Self {
+    pub fn new(nodes: IndexSet<(&'a str, usize)>) -> Self {
         Self {
-            title,
             nodes,
             markers: Markers::default(),
         }
@@ -50,7 +48,6 @@ impl<'a> Formatter<'a> {
     // depth
     pub fn write(&self) {
         let mut node_iter = self.nodes.iter().enumerate().peekable();
-        println!("{}", self.title);
         while let Some((i, (name, current_depth))) = node_iter.next() {
             let first_char = if *current_depth == 0 && i != self.nodes.len() - 1 {
                 self.markers.middle
