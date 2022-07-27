@@ -52,11 +52,9 @@ impl<'a> Formatter<'a> {
         let mut node_iter = self.nodes.iter().enumerate().peekable();
         println!("{}", self.title);
         while let Some((i, (name, current_depth))) = node_iter.next() {
-            let first_char = if i == self.nodes.len() - 1 && *current_depth != 0 {
-                self.markers.edge
-            } else if *current_depth == 0 && i != self.nodes.len() - 1 {
+            let first_char = if *current_depth == 0 && i != self.nodes.len() - 1 {
                 self.markers.middle
-            } else if i == self.nodes.len() - 1 {
+            } else if *current_depth == 0 && i == self.nodes.len() - 1 {
                 self.markers.end
             } else {
                 self.markers.edge
