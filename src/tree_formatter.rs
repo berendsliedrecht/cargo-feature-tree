@@ -1,4 +1,4 @@
-use indexmap::IndexSet;
+use std::vec::IntoIter;
 
 pub struct Markers<'a> {
     pub middle: &'a str,
@@ -20,16 +20,14 @@ impl<'a> Default for Markers<'a> {
     }
 }
 
-pub struct TreeFormatter<'a> {
-    markers: Markers<'a>,
-    nodes: IndexSet<(String, usize)>,
+pub struct TreeFormatter {
+    markers: Markers<'static>,
 }
 
-impl<'a> TreeFormatter<'a> {
-    pub fn new(nodes: IndexSet<(String, usize)>) -> Self {
+impl TreeFormatter {
+    pub fn new(markers: Option<Markers<'static>>) -> Self {
         Self {
-            nodes,
-            markers: Markers::default(),
+            markers: markers.unwrap_or_default(),
         }
     }
 
@@ -42,7 +40,7 @@ impl<'a> TreeFormatter<'a> {
         &self,
         current_depth: usize,
         is_last_node: bool,
-        peeked_next_node: Option<&(usize, &(String, usize))>,
+        peeked_next_node: Option<&(usize, (String, usize))>,
     ) -> (&str, &str) {
         let first_char = if current_depth == 0 && !is_last_node {
             self.markers.middle
@@ -53,10 +51,10 @@ impl<'a> TreeFormatter<'a> {
         };
 
         let middle_char = match peeked_next_node {
-            Some((_, (_, next_depth))) => {
-                if current_depth != 0 && next_depth >= &current_depth {
+            Some(&(_, (_, next_depth))) => {
+                if current_depth != 0 && next_depth >= current_depth {
                     self.markers.middle
-                } else if current_depth != 0 && next_depth < &current_depth {
+                } else if current_depth != 0 && next_depth < current_depth {
                     self.markers.end
                 } else {
                     self.markers.indent
@@ -74,12 +72,15 @@ impl<'a> TreeFormatter<'a> {
         (first_char, middle_char)
     }
 
-    pub fn write(&self) {
-        let mut node_iter = self.nodes.iter().enumerate().peekable();
+    pub fn write(
+        &self,
+        nodes: impl IntoIterator<Item = (String, usize), IntoIter = IntoIter<(String, usize)>> + 'static,
+    ) {
+        let mut node_iter = nodes.into_iter().enumerate().peekable();
         while let Some((i, (name, current_depth))) = node_iter.next() {
             let (first_char, middle_char) = self.get_first_and_middle_char(
-                *current_depth,
-                i == self.nodes.len() - 1,
+                current_depth,
+                i == node_iter.len(),
                 node_iter.peek(),
             );
 
@@ -91,10 +92,10 @@ impl<'a> TreeFormatter<'a> {
                 &self
                     .markers
                     .whitespace
-                    .repeat(std::cmp::min(*current_depth, 1)),
+                    .repeat(std::cmp::min(current_depth, 1)),
             );
 
-            for _ in 0..current_depth.checked_sub(1).unwrap_or(0) {
+            for _ in 0..current_depth.saturating_sub(1) {
                 line.push_str(self.markers.edge);
                 line.push_str(self.markers.whitespace);
             }
@@ -102,7 +103,7 @@ impl<'a> TreeFormatter<'a> {
             line.push_str(middle_char);
             line.push_str(self.markers.indent);
             line.push(' ');
-            line.push_str(name);
+            line.push_str(&name);
 
             println!("{}", line);
         }

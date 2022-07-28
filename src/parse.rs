@@ -10,17 +10,17 @@ impl Parse {
     }
 
     pub fn from_dir(p: impl AsRef<Path>) -> Result<Manifest> {
-        let mut p = p.as_ref().to_path_buf();
+        let mut p_buf = p.as_ref().to_path_buf();
 
-        if p.is_dir() {
-            p.push("Cargo.toml");
+        if p_buf.is_dir() {
+            p_buf.push("Cargo.toml");
         }
 
-        Parse::from_file(p)
+        Self::from_file(p_buf)
     }
 
     fn from_file(p: impl AsRef<Path>) -> Result<Manifest> {
         let bytes = std::fs::read(p).map_err(|_| Error::ManifestNotFound)?;
-        Parse::from_bytes(&bytes)
+        Self::from_bytes(&bytes)
     }
 }

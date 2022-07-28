@@ -2,32 +2,33 @@ use crate::tree_formatter::TreeFormatter;
 use core::fmt;
 use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
+use std::{borrow, collections::BTreeMap};
 
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct CargoFeatures(pub BTreeMap<String, Vec<String>>);
 
 impl<'a> CargoFeatures {
-    pub(crate) fn get_other_features_by_feature(
+    fn get_other_features_by_feature(
         &self,
         name: impl AsRef<str>,
     ) -> Option<(String, Vec<String>)> {
         self.0
             .get_key_value(name.as_ref())
-            .map(|(a, b)| (a.to_owned(), b.to_owned()))
+            .map(|(a, b)| (a.clone(), b.clone()))
     }
 
-    pub(crate) fn get_other_features_with_depth(
+    fn get_other_features_with_depth(
         &self,
         name: impl AsRef<str> + 'a,
         v: &mut IndexSet<(String, usize)>,
         depth: usize,
     ) {
         if let Some((_, other_features)) = self.get_other_features_by_feature(name.as_ref()) {
-            other_features.iter().for_each(|feature| {
-                v.insert((feature.to_owned(), depth));
-                self.get_other_features_with_depth(feature, v, depth + 1);
-            });
+            for feature in &other_features {
+                v.insert((feature.clone(), depth));
+                let new_depth = depth.checked_add(1).expect("depth overflow");
+                self.get_other_features_with_depth(feature, v, new_depth);
+            }
         }
     }
 
@@ -39,7 +40,8 @@ impl<'a> CargoFeatures {
             self.get_other_features_with_depth(name, &mut v, 1);
         });
 
-        TreeFormatter::new(v).write();
+        let x: Vec<(String, usize)> = v.iter().map(borrow::ToOwned::to_owned).collect();
+        TreeFormatter::new(None).write(x);
     }
 }
 
