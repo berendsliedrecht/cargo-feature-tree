@@ -2,7 +2,7 @@ use crate::tree_formatter::TreeFormatter;
 use core::fmt;
 use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
-use std::{borrow, collections::BTreeMap};
+use std::collections::BTreeMap;
 
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct CargoFeatures(pub BTreeMap<String, Vec<String>>);
@@ -40,8 +40,7 @@ impl<'a> CargoFeatures {
             self.get_other_features_with_depth(name, &mut v, 1);
         });
 
-        let x: Vec<(String, usize)> = v.iter().map(borrow::ToOwned::to_owned).collect();
-        TreeFormatter::new(None).write(x);
+        TreeFormatter::new(None).write(v.iter());
     }
 }
 

@@ -1,5 +1,3 @@
-use std::vec::IntoIter;
-
 pub struct Markers<'a> {
     pub middle: &'a str,
     pub indent: &'a str,
@@ -40,7 +38,7 @@ impl<'a> TreeFormatter<'a> {
         &self,
         current_depth: usize,
         is_last_node: bool,
-        peeked_next_node: Option<&(usize, (String, usize))>,
+        peeked_next_node: Option<&(usize, &(String, usize))>,
     ) -> (&str, &str) {
         let first_char = if current_depth == 0 && !is_last_node {
             self.markers.middle
@@ -52,9 +50,9 @@ impl<'a> TreeFormatter<'a> {
 
         let middle_char = match peeked_next_node {
             Some(&(_, (_, next_depth))) => {
-                if current_depth != 0 && next_depth >= current_depth {
+                if current_depth != 0 && next_depth >= &current_depth {
                     self.markers.middle
-                } else if current_depth != 0 && next_depth < current_depth {
+                } else if current_depth != 0 && next_depth < &current_depth {
                     self.markers.end
                 } else {
                     self.markers.indent
@@ -72,15 +70,12 @@ impl<'a> TreeFormatter<'a> {
         (first_char, middle_char)
     }
 
-    pub fn write(
-        &self,
-        nodes: impl IntoIterator<Item = (String, usize), IntoIter = IntoIter<(String, usize)>>,
-    ) {
+    pub fn write<T: Iterator<Item = &'a (String, usize)>>(&self, nodes: T) {
         let mut node_iter = nodes.into_iter().enumerate().peekable();
         while let Some((i, (name, current_depth))) = node_iter.next() {
             let (first_char, middle_char) = self.get_first_and_middle_char(
-                current_depth,
-                i == node_iter.len(),
+                *current_depth,
+                i == node_iter.size_hint().0,
                 node_iter.peek(),
             );
 
@@ -92,7 +87,7 @@ impl<'a> TreeFormatter<'a> {
                 &self
                     .markers
                     .whitespace
-                    .repeat(std::cmp::min(current_depth, 1)),
+                    .repeat(std::cmp::min(*current_depth, 1)),
             );
 
             for _ in 0..current_depth.saturating_sub(1) {
@@ -103,7 +98,7 @@ impl<'a> TreeFormatter<'a> {
             line.push_str(middle_char);
             line.push_str(self.markers.indent);
             line.push(' ');
-            line.push_str(&name);
+            line.push_str(name);
 
             println!("{}", line);
         }
