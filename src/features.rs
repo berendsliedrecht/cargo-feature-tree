@@ -1,4 +1,4 @@
-use crate::formatter::TreeFormatter;
+use crate::tree_formatter::TreeFormatter;
 use core::fmt;
 use indexmap::IndexSet;
 use serde::{Deserialize, Serialize};
