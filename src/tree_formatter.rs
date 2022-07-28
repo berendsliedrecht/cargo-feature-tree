@@ -20,12 +20,12 @@ impl<'a> Default for Markers<'a> {
     }
 }
 
-pub struct TreeFormatter {
-    markers: Markers<'static>,
+pub struct TreeFormatter<'a> {
+    markers: Markers<'a>,
 }
 
-impl TreeFormatter {
-    pub fn new(markers: Option<Markers<'static>>) -> Self {
+impl<'a> TreeFormatter<'a> {
+    pub fn new(markers: Option<Markers<'a>>) -> Self {
         Self {
             markers: markers.unwrap_or_default(),
         }
@@ -74,7 +74,7 @@ impl TreeFormatter {
 
     pub fn write(
         &self,
-        nodes: impl IntoIterator<Item = (String, usize), IntoIter = IntoIter<(String, usize)>> + 'static,
+        nodes: impl IntoIterator<Item = (String, usize), IntoIter = IntoIter<(String, usize)>>,
     ) {
         let mut node_iter = nodes.into_iter().enumerate().peekable();
         while let Some((i, (name, current_depth))) = node_iter.next() {
