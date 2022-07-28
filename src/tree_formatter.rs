@@ -40,10 +40,12 @@ impl<'a> TreeFormatter<'a> {
         is_last_node: bool,
         peeked_next_node: Option<&(usize, &(String, usize))>,
     ) -> (&str, &str) {
-        let first_char = if current_depth == 0 && !is_last_node {
-            self.markers.middle
-        } else if current_depth == 0 && is_last_node {
-            self.markers.end
+        let first_char = if current_depth == 0 {
+            if is_last_node {
+                self.markers.end
+            } else {
+                self.markers.middle
+            }
         } else {
             self.markers.edge
         };
@@ -72,10 +74,10 @@ impl<'a> TreeFormatter<'a> {
 
     pub fn write<T: Iterator<Item = &'a (String, usize)>>(&self, nodes: T) {
         let mut node_iter = nodes.into_iter().enumerate().peekable();
-        while let Some((i, (name, current_depth))) = node_iter.next() {
+        while let Some((_, (name, current_depth))) = node_iter.next() {
             let (first_char, middle_char) = self.get_first_and_middle_char(
                 *current_depth,
-                i == node_iter.size_hint().0,
+                node_iter.size_hint().0 == 0,
                 node_iter.peek(),
             );
 
