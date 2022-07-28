@@ -38,7 +38,7 @@ impl<'a> TreeFormatter<'a> {
         &self,
         current_depth: usize,
         is_last_node: bool,
-        peeked_next_node: Option<&(usize, &(String, usize))>,
+        peeked_next_node: Option<&(usize, &(impl AsRef<str>, usize))>,
     ) -> (&str, &str) {
         let first_char = if current_depth == 0 {
             if is_last_node {
@@ -72,7 +72,7 @@ impl<'a> TreeFormatter<'a> {
         (first_char, middle_char)
     }
 
-    pub fn write<T: Iterator<Item = &'a (String, usize)>>(&self, nodes: T) {
+    pub fn write<T: Iterator<Item = &'a (impl AsRef<str> + 'a, usize)>>(&self, nodes: T) {
         let mut node_iter = nodes.into_iter().enumerate().peekable();
         while let Some((_, (name, current_depth))) = node_iter.next() {
             let (first_char, middle_char) = self.get_first_and_middle_char(
@@ -100,7 +100,7 @@ impl<'a> TreeFormatter<'a> {
             line.push_str(middle_char);
             line.push_str(self.markers.indent);
             line.push(' ');
-            line.push_str(name);
+            line.push_str(name.as_ref());
 
             println!("{}", line);
         }
