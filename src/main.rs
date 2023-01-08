@@ -15,10 +15,7 @@ fn main() {
         exit(1)
     };
 
-    let path = match args.next() {
-        Some(p) => p,
-        None => String::from("."),
-    };
+    let path = args.next().map_or_else(|| String::from("."), |p| p);
 
     let cargo_toml = Parse::from_dir(path);
 

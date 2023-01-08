@@ -52,14 +52,12 @@ impl<'a> TreeFormatter<'a> {
 
         let middle_char = match peeked_next_node {
             Some(&(_, (_, next_depth))) => {
-                if current_depth != 0 {
-                    if next_depth >= &current_depth {
-                        self.markers.middle
-                    } else {
-                        self.markers.end
-                    }
-                } else {
+                if current_depth == 0 {
                     self.markers.indent
+                } else if next_depth >= &current_depth {
+                        self.markers.middle
+                } else {
+                        self.markers.end
                 }
             }
             None => {

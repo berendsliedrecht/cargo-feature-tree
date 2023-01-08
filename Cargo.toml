@@ -2,10 +2,9 @@
 name = "cargo-feature-tree"
 version = "0.1.0"
 edition = "2021"
-author = "blu3beri"
+authors = ["Berend Sliedrecht (blu3beri) blu3beri@proton.me"]
 description = "cargo feature-tree shows your features, and what they expand to, in a tree-like format"
 license = "MIT"
-license-file = "LICENSE"
 
 [dependencies]
 indexmap = "1.9.1"

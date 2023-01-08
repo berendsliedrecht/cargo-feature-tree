@@ -10,9 +10,9 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Error::OnlyRunAsSubcommand => write!(f, "Can only run as cargo subcommand"),
-            Error::ManifestNotFound => write!(f, "Manifest not found"),
-            Error::UnableToParse(reason) => write!(f, "Unable to parse, reason: {}", reason),
+            Self::OnlyRunAsSubcommand => write!(f, "Can only run as cargo subcommand"),
+            Self::ManifestNotFound => write!(f, "Manifest not found"),
+            Self::UnableToParse(reason) => write!(f, "Unable to parse, reason: {}", reason),
         }
     }
 }
