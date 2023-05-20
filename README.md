@@ -4,23 +4,25 @@ List your features in a expanded and tree-like format
 
 ```console
 λ cargo feature-tree
-┣━━ base58_rust_base58
-┃   ┗━ rust-base58
-┣━━ default
-┃   ┣━ base58_rust_base58
-┃   ┃   ┗━ rust-base58
-┃   ┣━ pair_amcl
-┃   ┃   ┗━ ursa
-┃   ┣━ local_nodes_pool
-┃   ┗━ revocation_tests
-┣━━ fatal_warnings
-┣━━ force_full_interaction_tests
-┣━━ local_nodes_pool
-┣━━ only_high_cases
-┣━━ pair_amcl
-┃   ┗━ ursa
-┣━━ revocation_tests
-┗━━ sodium_static
+zmix
+├── PS_Signature_G1
+├── PS_Signature_G2
+├── asm
+│   └── std
+│       ├── ver_enc
+│       └── PS_Signature_G2
+├── default
+│   └── std
+│       ├── ver_enc
+│       └── PS_Signature_G2
+├── portable
+│   └── std
+│       ├── ver_enc
+│       └── PS_Signature_G2
+├── std
+│   ├── ver_enc
+│   └── PS_Signature_G2
+└── ver_enc
 ```
 
 ## Installation
