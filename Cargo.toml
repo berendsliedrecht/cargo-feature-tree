@@ -4,6 +4,9 @@ version = "0.2.0"
 edition = "2021"
 authors = ["Berend Sliedrecht (blu3beri) blu3beri@proton.me"]
 description = "cargo feature-tree shows your features, and what they expand to, in a tree-like format"
+repository = "https://github.com/blu3beri/cargo-feature-tree"
+homepage = "https://github.com/blu3beri/cargo-feature-tree"
+documentation = "https://github.com/blu3beri/cargo-feature-tree"
 license = "MIT"
 
 [dependencies]
