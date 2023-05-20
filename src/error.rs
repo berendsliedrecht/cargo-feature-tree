@@ -12,7 +12,7 @@ impl fmt::Display for Error {
         match self {
             Self::OnlyRunAsSubcommand => write!(f, "Can only run as cargo subcommand"),
             Self::ManifestNotFound => write!(f, "Manifest not found"),
-            Self::UnableToParse(reason) => write!(f, "Unable to parse, reason: {}", reason),
+            Self::UnableToParse(reason) => write!(f, "Unable to parse, reason: {reason}"),
         }
     }
 }

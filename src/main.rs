@@ -21,6 +21,6 @@ fn main() {
 
     match cargo_toml {
         Ok(t) => CargoFeatures(t.features).display(),
-        Err(e) => eprintln!("[ERROR]: {}", e),
+        Err(e) => eprintln!("[ERROR]: {e}"),
     }
 }

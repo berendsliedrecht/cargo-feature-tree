@@ -1,0 +1,10 @@
+[build]
+rustflags = ["-D", "clippy::all",
+             "-D", "clippy::pedantic",
+             "-D", "clippy::correctness",
+             "-D", "clippy::suspicious",
+             "-D", "clippy::style",
+             "-D", "clippy::complexity",
+             "-D", "clippy::perf",
+             "-A", "clippy::module-name-repetitions"
+             ]

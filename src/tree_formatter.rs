@@ -102,7 +102,7 @@ impl<'a> TreeFormatter<'a> {
             line.push(' ');
             line.push_str(name.as_ref());
 
-            println!("{}", line);
+            println!("{line}");
         }
     }
 }
