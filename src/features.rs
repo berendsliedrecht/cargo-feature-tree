@@ -7,7 +7,7 @@ use std::collections::BTreeMap;
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct CargoFeatures(pub BTreeMap<String, Vec<String>>);
 
-impl<'a> CargoFeatures {
+impl CargoFeatures {
     fn get_other_features_by_feature(
         &self,
         name: impl AsRef<str>,
@@ -19,7 +19,7 @@ impl<'a> CargoFeatures {
 
     fn get_other_features_with_depth(
         &self,
-        name: impl AsRef<str> + 'a,
+        name: impl AsRef<str>,
         v: &mut IndexSet<(String, usize)>,
         depth: usize,
     ) {

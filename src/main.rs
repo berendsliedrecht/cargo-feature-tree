@@ -10,7 +10,7 @@ mod tree_formatter;
 fn main() {
     let mut args = env::args().skip(1);
 
-    if args.next() != Some(String::from("feature-tree")) {
+    if !cfg!(debug_assertions) && args.next() != Some(String::from("feature-tree")) {
         eprintln!("[ERROR]: {}", Error::OnlyRunAsSubcommand);
         exit(1)
     };

@@ -9,10 +9,10 @@ pub struct Markers<'a> {
 impl<'a> Default for Markers<'a> {
     fn default() -> Self {
         Self {
-            indent: "━",
-            middle: "┣",
-            end: "┗",
-            edge: "┃",
+            indent: "─",
+            middle: "├",
+            end: "└",
+            edge: "│",
             whitespace: "   ",
         }
     }
