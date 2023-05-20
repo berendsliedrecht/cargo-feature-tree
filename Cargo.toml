@@ -1,15 +1,11 @@
 [package]
 name = "cargo-feature-tree"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 authors = ["Berend Sliedrecht (blu3beri) blu3beri@proton.me"]
 description = "cargo feature-tree shows your features, and what they expand to, in a tree-like format"
 license = "MIT"
 
 [dependencies]
-indexmap = "1.9.1"
-cargo_toml = "0.11.5"
-
-[dependencies.serde]
-version = "1.0.140"
-features = ["derive"]
+cargo_toml = "0.15.2"
+termtree = "0.4.1"
