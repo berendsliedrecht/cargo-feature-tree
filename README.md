@@ -25,6 +25,15 @@ zmix
 └── ver_enc
 ```
 
+```console
+λ cargo feature-tree default
+zmix
+└── default
+    └── std
+        ├── ver_enc
+        └── PS_Signature_G2
+```
+
 ## Installation
 
 ```console
@@ -34,7 +43,7 @@ cargo install cargo-feature-tree
 ## Usage
 
 ```
-cargo feature-tree
+cargo feature-tree <FEATURE>
 
 cargo feature-tree path-to-folder-containing-cargo.toml
 
