@@ -1,6 +1,6 @@
 [package]
 name = "cargo-feature-tree"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Berend Sliedrecht (blu3beri) blu3beri@proton.me"]
 description = "cargo feature-tree shows your features, and what they expand to, in a tree-like format"
