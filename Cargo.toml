@@ -10,5 +10,5 @@ documentation = "https://github.com/blu3beri/cargo-feature-tree"
 license = "MIT"
 
 [dependencies]
-cargo_toml = "0.15.2"
+cargo_toml = "0.15.3"
 termtree = "0.4.1"

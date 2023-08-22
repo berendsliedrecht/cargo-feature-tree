@@ -17,8 +17,7 @@ fn main() {
     };
 
     // Get the path
-    let path = args.next().unwrap_or_else(|| String::from("."));
-    let mut path = PathBuf::from(path);
+    let mut path = PathBuf::from(args.next().unwrap_or_else(|| String::from(".")));
 
     // Add `Cargo.toml` if it is a directory
     if path.is_dir() {
@@ -43,10 +42,11 @@ fn main() {
     // Get the features
     let mut leaves = vec![];
     for feature in top_level_feature_keys {
-        let maybe_tree = get_nested_part(&feature, features);
-        if let Some(t) = maybe_tree {
-            leaves.push(t);
+        let mut t = get_nested_part(&feature, features);
+        if t.root == "default" {
+            t.root = "\x1b[1mdefault\x1b[0m".to_owned();
         }
+        leaves.push(t);
     }
 
     // Create the end tree
@@ -56,14 +56,19 @@ fn main() {
     println!("{tree}");
 }
 
-fn get_nested_part(key: &str, features: &BTreeMap<String, Vec<String>>) -> Option<Tree<String>> {
+fn get_nested_part(key: &str, features: &BTreeMap<String, Vec<String>>) -> Tree<String> {
     let mut leaves = vec![];
-    for feature in features.get(key)? {
-        let maybe_tree = get_nested_part(feature, features);
-        if let Some(t) = maybe_tree {
+    for feature in features.get(key).unwrap_or(&vec![]) {
+        if let Some(dep_name) = feature.strip_prefix("dep:") {
+            leaves.push(Tree::new(format!("\x1b[96m{dep_name}\x1b[0m")));
+        } else if feature.contains('/') {
+            let (dep_name, dep_feature) = feature.split_once('/').unwrap();
+            leaves.push(Tree::new(format!("\x1b[95m{dep_name}\x1b[0m/\x1b[92m{dep_feature}\x1b[0m")));
+        } else {
+            let t = get_nested_part(feature, features);
             leaves.push(t);
         }
     }
 
-    Some(Tree::new(key.to_owned()).with_leaves(leaves))
+    Tree::new(key.to_owned()).with_leaves(leaves)
 }
