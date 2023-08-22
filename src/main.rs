@@ -63,7 +63,9 @@ fn get_nested_part(key: &str, features: &BTreeMap<String, Vec<String>>) -> Tree<
             leaves.push(Tree::new(format!("\x1b[96m{dep_name}\x1b[0m")));
         } else if feature.contains('/') {
             let (dep_name, dep_feature) = feature.split_once('/').unwrap();
-            leaves.push(Tree::new(format!("\x1b[95m{dep_name}\x1b[0m/\x1b[92m{dep_feature}\x1b[0m")));
+            leaves.push(Tree::new(format!(
+                "\x1b[95m{dep_name}\x1b[0m/\x1b[92m{dep_feature}\x1b[0m"
+            )));
         } else {
             let t = get_nested_part(feature, features);
             leaves.push(t);
